@@ -16,3 +16,12 @@ concurrency:
   group: "github-pages"
   cancel-in-progress: true
 ```
+1. installation de surge npm i --global surge, installé en global
+2. surge dans terminal (demande de se connecter) 
+3. lui donner le dist => /home/student/s123revisions/vite-project/dist
+4. domaine créer un domaine ex react-geri-lea.surge.sh
+
+------
+1. surge yml
+2. ajouter workflow dispatch pour mettre en production manuellement 'ajoute couche de sécur
+

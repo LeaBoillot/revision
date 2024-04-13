@@ -1,0 +1,36 @@
+@startuml architecture
+left to right direction
+
+node "Frontend" {
+    component fo [
+        Front office
+        node:18-alpine
+    ]
+    component bo [
+        Back office
+        node:18-alpine
+    ]
+}
+
+node "Backend           " {
+    component NodeJs [
+        NodeJs
+        node:18-alpine
+    ]
+    port API
+    API - [NodeJs]
+}
+
+database "Database" as pgsql {
+    component PostgreSQL [
+        PostgreSQL
+        postgis/postgis:13-master
+    ]
+}
+
+[fo] --- API
+[bo] --- API
+[PostgreSQL] -down- [NodeJs]
+[Adminer] --- [PostgreSQL]
+
+@enduml

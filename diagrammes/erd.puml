@@ -1,0 +1,40 @@
+@startuml erd
+hide circle
+skinparam linetype ortho
+
+entity "Developper" as dev {
+    *id : int
+    --
+    *name : string
+    *email : string
+    *password : string
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+entity "Task" as task {
+    *id : int
+    --
+    *name : string
+    description : string
+    status : int
+    dev_id : int
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+entity "Client" as client {
+    *id : int
+    --
+    *name : string
+    *email : string
+    task_id : int
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+dev ||..o{ task
+dev }|.o{ client
+client ||..o{ task
+
+@enduml

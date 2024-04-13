@@ -1,0 +1,25 @@
+@startuml activity
+start
+
+:Ouvrir la porte;
+
+if (Commande au bar) then (oui)
+    :Aller au bar;
+elseif (Placement libre) then (oui)
+    :Trouver une table;
+else (non)
+    :Attendre hôte;
+endif
+
+:Lire la carte;
+:Commander;
+
+repeat
+    :Attendre commande;
+backward:Scroll sur le tel;
+repeat while (Servit) not (oui)
+
+:Manger;
+
+end
+@enduml

@@ -1,0 +1,33 @@
+@startuml library
+class Book {
+    + chapters : []
+    + author: string
+    ' + borrowDocument() : void
+    ' + returnDocument() : void
+}
+'+ public -private # protected utilisé dans cadre héritage, les enfants ont accès, private public
+class Magazine {
+    + sections : []
+    + editor: string
+    + showDetails() : [string]
+}
+' book et magazine hérite de document , on utilisa jamais document en objet tel quel donc on met abstract, on l'instantie jamais
+abstract class Document {
+    + title : string
+    + author: string
+    + showDetails() : string
+    + borrowDocument() : void
+    + returnDocument() : void
+}
+
+interface Borrowable{
+    ' on y met des méthodes
+    + borrowDocument() : void
+    + returnDocument() : void
+}
+
+Document <|-- Book
+Document <|-- Magazine
+'Borrowable <|.. Book
+Borrowable <|.. Document
+@enduml

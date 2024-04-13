@@ -1,0 +1,24 @@
+@startuml usecases 
+left to right direction 
+actor Utilisateur as U 
+
+package CoClock {
+    usecase UC1 as "Visualiser la liste des espaces de coworking" 
+    usecase UC2 as "Voir les détails d'un espace de coworking" 
+    usecase UC3 as "Lire un commentaire" 
+    usecase UC4 as "Ajouter un commentaire" 
+    usecase UC6 as "Réserver un espace de coworking" 
+    usecase UC7 as "S'enregistrer" 
+    usecase UC8 as "S'authentifier" 
+}
+
+U --> UC1 
+U --> UC2 
+U --> UC3
+U --> UC4
+U --> UC6 
+U --> UC7 
+U --> UC8
+UC8 .> UC4 : include 
+UC8 .> UC6 : include
+@enduml

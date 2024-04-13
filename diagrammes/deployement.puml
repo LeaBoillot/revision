@@ -1,0 +1,31 @@
+@startuml deployment
+node "Client" as client {
+    [VSCode]
+}
+
+node "Github" as gh {
+    [Remote repository] as repo
+    node "Workflow" as wf {
+
+        node "Build" as wfb {
+            [Build]
+            artifact "Builded Folder" as builded
+        }
+
+        node "Deploy" as wfd {
+            [Deploy]
+        }
+    }
+}
+
+node "Front" as front {
+    [Github Pages] as ghp
+}
+
+VSCode --> repo : commit & push
+repo --> Build : on push to master
+Build --> builded
+builded --> Deploy
+Deploy --> ghp
+
+@enduml

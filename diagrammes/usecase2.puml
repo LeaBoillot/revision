@@ -1,0 +1,16 @@
+@startuml usecase
+left to right direction
+actor User as U
+
+package AuthSystem {
+    usecase "Login" as UC1
+    usecase "Authentication" as UC2
+    usecase "Log in with google account" as UC3
+    usecase "Forgotten password" as UC4
+}
+
+U --> UC1
+UC1 <.. UC2 : include
+UC2 <.. UC4 : extend
+UC2 <-- UC3
+@enduml

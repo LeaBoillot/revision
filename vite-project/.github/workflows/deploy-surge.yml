@@ -1,12 +1,12 @@
 name: Deploy to Surge
 
-# Bouton pour run l'action via GitHub Actions
+# Bouton pour run l'action via GitHub Actions, mettre en prod manuellement
 on: workflow_dispatch
 
 concurrency:
   group: "surge"
   cancel-in-progress: true
-
+# besoin de créer un seul job,
 jobs:
   buildNdeploy:
     environment: production
@@ -16,12 +16,21 @@ jobs:
         shell: bash
         working-directory: ./
     steps:
+      #recuperer le code
       - name: Fetch Code
+      # on utilise l'action prédéfini checkout
         uses: actions/checkout@v4
+      # install dependancies
       - name: Install dependancies
         run: npm install
       - name: Build
         run: npm run build
+      # deploiement sur surge
       - name: Deploy to Surge
+      # run plusieurs commandes |
+      # on va directement envoyer le dist sur le nom de domaine qu'on a créé
+      # surge le projet(dist) --domain -- token (ici token va être visible, me dérange)
+      # on va utiliser des secrets ou var env depuis github secret and variables new repo secret token : surge token
         run: |
           npm install -g surge
+          surge ./dist --domain ${{ secrets.SURGE_DOMAIN}}  --TOKEN ${{ secrets.SURGE_TOKEN}}

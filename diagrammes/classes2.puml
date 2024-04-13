@@ -1,0 +1,30 @@
+@startuml
+package models {
+  class Owner {
+    - login: String
+    - html_url: String
+    - type: String
+    - avatar_url: String
+  }
+  class Project {
+    - private: boolean
+    - archived: boolean
+    - name: String
+    - full_name: String
+    - description: String
+    - language: String
+    - html_url: String
+    - license: String
+  }
+  Owner "0..*" - "1..1" Project 
+}
+
+package controllers { 
+  class DashboardController {
+    + void render()
+  }
+  class ProjectdetailController {
+    + void render(int projectId)
+  }
+}
+@enduml

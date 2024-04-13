@@ -1,0 +1,21 @@
+@startuml Réserver un espace de coworking
+start
+:Toutes les espaces;
+:Sélection d'un espace;
+
+repeat :Sélection d'un créneau horaire;
+backward :Message de non disponibilité;
+repeat while (Disponible ?) is (Non) not (Oui)
+
+:Validation de la réservation;
+
+if (Connecté) then (Oui)
+    
+else (Non)
+    :Connexion;
+endif
+
+:Confirmation de la réservation;
+
+stop
+@enduml
