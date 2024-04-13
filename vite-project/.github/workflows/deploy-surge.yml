@@ -1,8 +1,12 @@
 name: Deploy to Surge
 
 # Bouton pour run l'action via GitHub Actions, mettre en prod manuellement
-on: workflow_dispatch
-
+# on: workflow_dispatch
+on :
+  push :
+    branches:
+      - surge
+      
 concurrency:
   group: "surge"
   cancel-in-progress: true
