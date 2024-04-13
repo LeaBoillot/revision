@@ -1,0 +1,54 @@
+name: Deploy to GitHub Pages
+
+# Déclencheur
+on:
+  push:
+    branches:
+      - main
+
+# Permissions
+permissions:
+  id-token: write
+  pages: write
+
+# Autorise un seul déploiement à la fois
+concurrency:
+  group: "github-pages"
+  cancel-in-progress: true
+
+# Jobs
+jobs:
+  build:
+    environment: production
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./
+    steps:
+      - name: Fetch Code
+        uses: actions/checkout@v4
+      - name: Install dependancies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Generate Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: artifact
+          path: ./dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+    name: github-pages
+    url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Deploy GitHub Pages
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: artifact
+

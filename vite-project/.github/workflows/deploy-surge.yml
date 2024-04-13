@@ -1,0 +1,27 @@
+name: Deploy to Surge
+
+# Bouton pour run l'action via GitHub Actions
+on: workflow_dispatch
+
+concurrency:
+  group: "surge"
+  cancel-in-progress: true
+
+jobs:
+  buildNdeploy:
+    environment: production
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./
+    steps:
+      - name: Fetch Code
+        uses: actions/checkout@v4
+      - name: Install dependancies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Deploy to Surge
+        run: |
+          npm install -g surge
