@@ -5,5 +5,5 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   // seulement avec github pages
-  // base: "/react-ci-cd-geri"
+  base: "/react-ci-cd-geri"
 })
