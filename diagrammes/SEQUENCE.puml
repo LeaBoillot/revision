@@ -1,0 +1,40 @@
+@startuml sequence
+
+actor User
+' entite qui sont pas des acteurs
+participant Feed 
+' personnes suivis
+participant Followee
+participant Users
+participant Posts 
+' 1. user demande feed , fedd va interagir avec bcp d'entite
+User -> Feed: getFeed()
+' met une barre ds le diag, spécifie un groupe d'action (getFeed)
+activate Feed 
+' feed demande aux folowee get ses suivis
+Feed -> Followee: getFollowees()
+activate Followee
+' folowee filtre et cherche 5 foloww aleatoires (user implicite)
+Followee -> Followee: filterRandom(5) 
+' folowee va chercher des posts
+Followee -> Posts: getPosts()
+activate Posts
+' filtre les posts non lus
+Posts -> Posts: filterUnread()
+' parmis ceux la 5 random
+Posts -> Posts: filterRandom(5)
+' retourne post jusuqua feed
+Posts -> Followee
+Followee -> Feed 
+
+' ici on veut avoir les utilisateurs associés au post et demander à user tt utilisateurs asociés aux posts
+Feed -> Users: getUsers()
+activate Users
+Users -> Users: filterRandom(5)
+Users -> Posts: getPosts()
+Posts -> Posts: filterUnread()
+Posts -> Posts: filterRandom(5)
+Posts -> Users
+Users -> Feed 
+
+@enduml

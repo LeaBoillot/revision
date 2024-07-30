@@ -1,0 +1,46 @@
+@startuml usecase 
+
+left to right direction
+
+actor "Visiteur" as Visitor
+actor "Utilisateur" as User
+actor "Administrateur" as Admin 
+
+usecase "Lire un feed" as uc1
+
+rectangle "Post" {
+    usecase "Créer un post" as uc10
+    usecase "Consulter un post" as uc11
+    usecase "Éditer un post" as uc12
+    usecase "Supprimer un post" as uc13
+}
+
+rectangle "Utilisateur" {
+    usecase "S'abonner à un autre utilisateur" as uc20
+    usecase "Désabonner à un autre utilisateur" as uc21
+    usecase "Supprimer un utilisateur" as uc22
+    usecase "Éditer mon profil" as uc23
+    usecase "Consulter un profil utilisateur" as uc24
+}
+
+rectangle "Compte" { 
+    usecase "Créer un compte (Inscription)" as uc30
+    usecase "Se connecter" as uc31
+    usecase "Se déconnecter" as uc32
+}
+
+User --> uc1
+User --> uc10
+User --> uc11
+User --> uc12
+User --> uc20
+User --> uc21
+User --> uc23
+User --> uc24
+User --> uc31
+User --> uc32
+Admin --> uc22
+Admin --> uc13
+Visitor --> uc31
+
+@enduml

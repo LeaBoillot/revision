@@ -1,0 +1,75 @@
+version: "3.8"
+
+services:
+  frontend:
+    # Image utilisé pour le conteneur
+    build: ./frontend
+    # Volume pour l'effet mirroir des dossiers / fichiers, host (gauche), container (droite)
+    volumes:
+      - ./frontend:/frontend
+    # Ouverture du port de l'host (gauche) vers le container (droite)
+    ports:
+      - 5173:5173
+    # Commande à exécuter lorsque le container est créé
+    command: npm run setup
+
+  directus:
+    # Image utilisé pour le conteneur
+    image: directus/directus:10.6.2
+    # Redémarrage automatique lorsque le container est en erreur, ne redémarre si on le stop nous même
+    restart: unless-stopped
+    # Ouverture du port de l'host (gauche) vers le container (droite)
+    ports:
+      - 8055:8055
+    # Volume pour l'effet mirroir des dossiers / fichiers, host (gauche), container (droite)
+    volumes:
+      - ./directus/uploads:/directus/uploads
+    # Le container dépend de database, il ne sera pas créé avant que le container database soit créé
+    depends_on:
+      - database
+    # Variable d'environnement de l'image
+    environment:
+      KEY: ${KEY}
+      SECRET: ${SECRET}
+
+      DB_CLIENT: ${DB_CLIENT}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+
+  database:
+    # Image utilisé pour le conteneur
+    image: postgis/postgis:13-master
+    # Volume pour l'effet mirroir des dossiers / fichiers, host (gauche), container (droite)
+    volumes:
+      - ./directus/data/database:/var/lib/postgresql/data
+      # Réremplir la BDD avec un fichier SQL
+      - ./directus/init.sql:/docker-entrypoint-initdb.d/init.sql
+    # Variable d'environnement de l'image
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+  pgadmin4:
+    # Image utilisé pour le conteneur
+    image: elestio/pgadmin
+    # Le container dépend de database, il ne sera pas créé avant que le container database soit créé
+    depends_on:
+      - database
+    # Variable d'environnement de l'image
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT}
+    # Ouverture du port de l'host (gauche) vers le container (droite)
+    ports:
+      - 8080:8080
+    # Volume pour l'effet mirroir des dossiers / fichiers, host (gauche), container (droite)
+    volumes:
+      - ./pgadmin/servers.json:/pgadmin4/servers.json

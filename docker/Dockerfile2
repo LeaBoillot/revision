@@ -1,0 +1,18 @@
+# FROM pour dire à Docker quelle image utilisé
+FROM node:20-alpine
+
+# WORKDIR pour changer de dossier de travail
+WORKDIR /server
+
+# RUN pour éxecuter des commandes dans le conteneur
+RUN npm install -g json-server
+
+# COPY pour copier l'ensemble des dossiers / fichiers de l'application
+# Premier "./" qui défini le dossier de la machine hôte, second "./" le dossier du conteneur
+COPY db.json ./
+
+# ENTRYPOINT comme CMD pour définir une commande lors du démarrage du conteneur
+# Syntaxe existante pour ENTRYPOINT et CMD :
+# ENTRYPOINT ["json-server", "db.json", "--host", "0.0.0.0"]
+# voir docker doc
+ENTRYPOINT json-server db.json --host 0.0.0.0

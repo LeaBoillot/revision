@@ -1,0 +1,31 @@
+@startuml
+' left to right direction
+actor Connecté as c
+actor Invité as i
+
+i <|-- c
+package SiteCowork {
+  usecase "Consulter liste espaces" as UC1
+  usecase "S'authentifier" as UC7
+  usecase "Se connecter" as UC8
+  usecase "Naviguer détail d'un espace" as UC2
+  usecase "Consulter les commentaires" as UC3
+  usecase "Consulter  les creneaux" as UC4
+  usecase "Ajouter un commentaire" as UC5
+  usecase "Reserver un creneau" as UC6
+}
+i   --> UC1
+i   --> UC2
+i   --> UC3
+i   --> UC4
+i   --> UC7
+i   --> UC8
+' UC1 <|- UC2
+' UC2 <|- UC3
+' UC2 <|- UC4
+' UC2 <|- UC5
+' les liens plus ds le séquentiel, si pas connecté mettre des include voir corr
+c   --> UC5
+' UC4 <|- UC6
+c   --> UC6
+@enduml

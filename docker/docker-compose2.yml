@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  frontend:
+    image: node:20-alpine
+    ports: 
+      - 5173:5173
+    volumes:
+      - ./frontend:/frontend
+    environment:
+      - VITE_API_URL=http://jeremydfr-server.eddi.cloud:3000
+    working_dir: /frontend
+    command: npm run setup
+
+  backend:
+    build: ./backend
+    depends_on: 
+      - database
+    ports:
+      - 3000:3000
+    volumes:
+      - ./backend:/app/backend
+      - /app/backend/node_modules
+    command: npm run dev
+
+  database:
+    image: postgres
+    volumes:
+      - ./backend/data:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+  
